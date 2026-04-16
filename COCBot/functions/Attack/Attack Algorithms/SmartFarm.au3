@@ -666,7 +666,7 @@ Func AttackSmartFarm($Nside, $SIDESNAMES)
 	$g_aiDeployHeroesPosition[0] = -1
 	$g_aiDeployHeroesPosition[1] = -1
 
-	LaunchTroopSmartFarm($listInfoDeploy, $g_iClanCastleSlot, $g_iKingSlot, $g_iQueenSlot, $g_iWardenSlot, $g_iChampionSlot, $g_iMinionPSlot, $SIDESNAMES)
+	LaunchTroopSmartFarm($listInfoDeploy, $g_iClanCastleSlot, $g_iKingSlot, $g_iQueenSlot, $g_iWardenSlot, $g_iChampionSlot, $g_iMinionPSlot, $g_iDragonDukeSlot, $SIDESNAMES)
 	
 	If Not $g_bRunState Then Return
 	If IsProblemAffect() Then Return
@@ -720,11 +720,11 @@ Func AttackSmartFarm($Nside, $SIDESNAMES)
 	SetLog("Finished Attacking, waiting for the battle to end")
 EndFunc   ;==>AttackSmartFarm
 
-Func LaunchTroopSmartFarm($listInfoDeploy, $iCC, $iKing, $iQueen, $iWarden, $iChampion, $iMinion, $SIDESNAMES = "TR|TL|BR|BL")
+Func LaunchTroopSmartFarm($listInfoDeploy, $iCC, $iKing, $iQueen, $iWarden, $iChampion, $iMinion, $iDragonDuke = -1, $SIDESNAMES = "TR|TL|BR|BL")
 	; Initial Timer
 	Local $hTimer = TimerInit()
-	
-	SetDebugLog("LaunchTroopSmartFarm with CC " & $iCC & ", K " & $iKing & ", Q " & $iQueen & ", W " & $iWarden & ", C " & $iChampion & ", M " & $iMinion, $COLOR_DEBUG)
+
+	SetDebugLog("LaunchTroopSmartFarm with CC " & $iCC & ", K " & $iKing & ", Q " & $iQueen & ", W " & $iWarden & ", C " & $iChampion & ", M " & $iMinion & ", DD " & $iDragonDuke, $COLOR_DEBUG)
 	; $ListInfoDeploy = [Troop, No. of Sides, $WaveNb, $MaxWaveNb, $slotsPerEdge]
 	Local $listListInfoDeployTroopPixel[0]
 	Local $pixelRandomDrop[2]
@@ -829,7 +829,7 @@ Func LaunchTroopSmartFarm($listInfoDeploy, $iCC, $iKing, $iQueen, $iWarden, $iCh
 								dropCC($pixelRandomDropcc[0], $pixelRandomDropcc[1], $iCC)
 								$g_bIsCCDropped = True
 							ElseIf ($g_bIsHeroesDropped = False And $infoTroopListArrPixel[0] = "HEROES" And $i = $numberSidesDropTroop - 1) Then
-								dropHeroes($pixelRandomDrop[0], $pixelRandomDrop[1], $iKing, $iQueen, $iWarden, $iChampion, $iMinion)
+								dropHeroes($pixelRandomDrop[0], $pixelRandomDrop[1], $iKing, $iQueen, $iWarden, $iChampion, $iMinion, $iDragonDuke)
 								$g_bIsHeroesDropped = True
 							EndIf
 						Else

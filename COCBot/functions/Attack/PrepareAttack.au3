@@ -30,11 +30,13 @@ Func PrepareAttack($pMatchMode = 0, $bRemaining = False) ;Assigns troops
 		$g_bDropWarden = False
 		$g_bDropChampion = False
 		$g_bDropMinionP = False
+		$g_bDropDragonDuke = False
 		If $g_iActivateKing = 1 Or $g_iActivateKing = 2 Then $g_aHeroesTimerActivation[$eHeroBarbarianKing] = 0
 		If $g_iActivateQueen = 1 Or $g_iActivateQueen = 2 Then $g_aHeroesTimerActivation[$eHeroArcherQueen] = 0
 		If $g_iActivateWarden = 1 Or $g_iActivateWarden = 2 Then $g_aHeroesTimerActivation[$eHeroGrandWarden] = 0
 		If $g_iActivateChampion = 1 Or $g_iActivateChampion = 2 Then $g_aHeroesTimerActivation[$eHeroRoyalChampion] = 0
 		If $g_iActivateMinionP = 1 Or $g_iActivateMinionP = 2 Then $g_aHeroesTimerActivation[$eHeroMinionPrince] = 0
+		If $g_iActivateDragonDuke = 1 Or $g_iActivateDragonDuke = 2 Then $g_aHeroesTimerActivation[$eHeroDragonDukeIndex] = 0
 
 		$g_iTotalAttackSlot = 10 ; reset flag - Slot11+
 		$g_bDraggedAttackBar = False

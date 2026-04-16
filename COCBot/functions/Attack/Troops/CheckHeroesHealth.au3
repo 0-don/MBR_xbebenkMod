@@ -14,10 +14,10 @@
 ; ===============================================================================================================================
 Func CheckHeroesHealth()
 
-	If $g_bCheckKingPower Or $g_bCheckQueenPower Or $g_bCheckWardenPower Or $g_bCheckChampionPower Or $g_bCheckMinionPPower Then
+	If $g_bCheckKingPower Or $g_bCheckQueenPower Or $g_bCheckWardenPower Or $g_bCheckChampionPower Or $g_bCheckMinionPPower Or $g_bCheckDragonDukePower Then
 		ForceCaptureRegion() ; ensure no screenshot caching kicks in
 
-		Local $aDisplayTime[$eHeroCount] = [0, 0, 0, 0, 0] ; array to hold converted timerdiff into seconds
+		Local $aDisplayTime[$eHeroCount] = [0, 0, 0, 0, 0, 0] ; array to hold converted timerdiff into seconds
 
 		; Slot11+
 		Local $TempKingSlot = $g_iKingSlot
@@ -25,10 +25,11 @@ Func CheckHeroesHealth()
 		Local $TempWardenSlot = $g_iWardenSlot
 		Local $TempChampionSlot = $g_iChampionSlot
 		Local $TempMinionPSlot = $g_iMinionPSlot
-		
-		If $g_iKingSlot >= 11 Or $g_iQueenSlot >= 11 Or $g_iWardenSlot >= 11 Or $g_iChampionSlot >= 11 Or $g_iMinionPSlot >= 11 Then
+		Local $TempDragonDukeSlot = $g_iDragonDukeSlot
+
+		If $g_iKingSlot >= 11 Or $g_iQueenSlot >= 11 Or $g_iWardenSlot >= 11 Or $g_iChampionSlot >= 11 Or $g_iMinionPSlot >= 11 Or $g_iDragonDukeSlot >= 11 Then
 			If Not $g_bDraggedAttackBar Then DragAttackBar($g_iTotalAttackSlot, False) ; drag forward
-		ElseIf $g_iKingSlot >= 0 And $g_iQueenSlot >= 0 And $g_iWardenSlot >= 0 And $g_iChampionSlot >= 0 And $g_iMinionPSlot >= 0 And ($g_iKingSlot < $g_iTotalAttackSlot - 10 Or $g_iQueenSlot < $g_iTotalAttackSlot - 10 Or $g_iWardenSlot < $g_iTotalAttackSlot - 10 Or $g_iChampionSlot < $g_iTotalAttackSlot - 10 Or $g_iMinionPSlot < $g_iTotalAttackSlot - 10) Then
+		ElseIf $g_iKingSlot >= 0 And $g_iQueenSlot >= 0 And $g_iWardenSlot >= 0 And $g_iChampionSlot >= 0 And $g_iMinionPSlot >= 0 And $g_iDragonDukeSlot >= 0 And ($g_iKingSlot < $g_iTotalAttackSlot - 10 Or $g_iQueenSlot < $g_iTotalAttackSlot - 10 Or $g_iWardenSlot < $g_iTotalAttackSlot - 10 Or $g_iChampionSlot < $g_iTotalAttackSlot - 10 Or $g_iMinionPSlot < $g_iTotalAttackSlot - 10 Or $g_iDragonDukeSlot < $g_iTotalAttackSlot - 10) Then
 			If $g_bDraggedAttackBar Then DragAttackBar($g_iTotalAttackSlot, True) ; return drag
 		EndIf
 		
@@ -38,6 +39,7 @@ Func CheckHeroesHealth()
 			$TempWardenSlot -= $g_iTotalAttackSlot - 10
 			$TempChampionSlot -= $g_iTotalAttackSlot - 10
 			$TempMinionPSlot -= $g_iTotalAttackSlot - 10
+			$TempDragonDukeSlot -= $g_iTotalAttackSlot - 10
 		EndIf
 
 		If $g_bDebugSetlog Then
@@ -214,7 +216,42 @@ Func CheckHeroesHealth()
 				EndIf
 			EndIf
 		EndIf
-		
+
+		If $g_bDebugSetlog Then
+			SetDebugLog("CheckHeroesHealth() for Dragon Duke started ")
+			If _Sleep($DELAYRESPOND) Then Return ; improve pause button response
+		EndIf
+
+		If $g_iActivateDragonDuke = 0 Or $g_iActivateDragonDuke = 2 And ($g_aHeroesTimerActivation[$eHeroDragonDukeIndex] = 0 Or __TimerDiff($g_aHeroesTimerActivation[$eHeroDragonDukeIndex]) > $DELAYCHECKHEROESHEALTH) Then
+			If $g_bCheckDragonDukePower Then
+				Local $aDragonDukeHealthCopy = $aDragonDukeHealth
+				Local $aSlotPosition = GetSlotPosition($TempDragonDukeSlot)
+				$aDragonDukeHealthCopy[0] = $aSlotPosition[0] - $aDragonDukeHealthCopy[4] ; Slot11+
+				Local $DragonDukePixelColor = _GetPixelColor($aDragonDukeHealthCopy[0], $aDragonDukeHealthCopy[1], $g_bCapturePixel)
+				SetDebugLog("Dragon Duke _GetPixelColor(" & $aDragonDukeHealthCopy[0] & "," & $aDragonDukeHealthCopy[1] & "): " & $DragonDukePixelColor, $COLOR_DEBUG)
+				If Not _CheckPixel2($aDragonDukeHealthCopy, $DragonDukePixelColor, "Red+Blue") Then
+					SetLog("Dragon Duke is getting weak, Activating Dragon Duke's ability", $COLOR_INFO)
+					SelectDropTroop($TempDragonDukeSlot, 2, Default, False) ; Slot11+
+					$g_iCSVLastTroopPositionDropTroopFromINI = $g_iDragonDukeSlot
+					$g_bCheckDragonDukePower = False
+				EndIf
+			EndIf
+		EndIf
+		If $g_iActivateDragonDuke = 1 Or $g_iActivateDragonDuke = 2 Then
+			If $g_bCheckDragonDukePower Then
+				If $g_aHeroesTimerActivation[$eHeroDragonDukeIndex] <> 0 Then
+					$aDisplayTime[$eHeroDragonDukeIndex] = Ceiling(__TimerDiff($g_aHeroesTimerActivation[$eHeroDragonDukeIndex]) / 1000) ; seconds
+				EndIf
+				If (Int($g_iDelayActivateDragonDuke) / 1000) <= $aDisplayTime[$eHeroDragonDukeIndex] Then
+					SetLog("Activating Dragon Duke's ability after " & $aDisplayTime[$eHeroDragonDukeIndex] & "'s", $COLOR_INFO)
+					SelectDropTroop($TempDragonDukeSlot, 2, Default, False) ; Slot11+
+					$g_iCSVLastTroopPositionDropTroopFromINI = $g_iDragonDukeSlot
+					$g_bCheckDragonDukePower = False ; Reset check power flag
+					$g_aHeroesTimerActivation[$eHeroDragonDukeIndex] = 0 ; Reset Timer
+				EndIf
+			EndIf
+		EndIf
+
 		If _Sleep($DELAYRESPOND) Then Return ; improve pause button response
 	EndIf
 EndFunc   ;==>CheckHeroesHealth
