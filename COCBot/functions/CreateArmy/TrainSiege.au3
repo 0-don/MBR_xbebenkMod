@@ -28,7 +28,7 @@ Func TrainSiege($bTrainFullSiege = False)
 	Local $aCheckIsOccupied[4] = [767, 203, 0xE21012, 10]
 	Local $aCheckIsFilled[4] = [715, 186, 0xD7AFA9, 10]
 	
-	Local $aiQueueSiegeMachine[$eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0]
+	Local $aiQueueSiegeMachine[$eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 	Local $aiTotalSiegeMachine = $g_aiCurrentSiegeMachines
 	Local $aCoord[2] = [0, 0]
 
