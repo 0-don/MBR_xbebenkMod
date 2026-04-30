@@ -44,11 +44,18 @@ Func PrepareAttackBB($Mode = Default)
 	EndIf
 	
 	getBuilderCount(True, True)
-	If $g_bChkSkipBBAttIfStorageFull And ($GoldIsFull And $ElixIsFull) And $g_iFreeBuilderCountBB = 0 Then
-		SetLog("Skip attack, full resources and busy village!", $COLOR_INFO)
+
+	; Halt-on-full gating ported from PH MOD v10.4. Honour the halt only when
+	; the user asked for it and the stars-available toggle is not already
+	; gating attacks (it would gate again below). The CG/BB-event force-attack
+	; path returns above this point, so events are unaffected.
+	If $g_bChkSkipBBAttIfStorageFull _
+			And Not $g_bChkBBAttIfStarsAvail _
+			And $GoldIsFull And $ElixIsFull Then
+		SetLog("Skip attack, both BB storages full!", $COLOR_INFO)
 		Return False
 	EndIf
-	
+
 	If $g_bChkBBAttIfStarsAvail Then
 		If Not CheckStarsAvail() Then
 			If _Sleep(500) Then Return

@@ -90,7 +90,6 @@ Func DoAttackBB($g_iBBAttackCount = $g_iBBAttackCount)
 			EndIf
 			checkMainScreen()
 			BuilderBaseReport(False, False)
-			If isGoldFullBB() And isElixirFullBB() Then ExitLoop
 		Next
 		If Not $g_bRunState Then Return
 		SetLog("Skip Attack this time..", $COLOR_DEBUG)

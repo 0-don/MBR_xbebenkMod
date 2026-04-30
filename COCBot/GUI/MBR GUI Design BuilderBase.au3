@@ -298,8 +298,8 @@ Func CreateBBAttackSubTab()
 			GUICtrlSetOnEvent(-1, "ChkBBAttIfStarsAvail")
 			GUICtrlSetState(-1, $GUI_DISABLE)
 		$y += 23
-		$g_hChkSkipBBAttIfStorageFull = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkSkipBBAttIfStorageFull", "No Attack If Storages Full"), $x, $y)
-			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkSkipBBAttIfStorageFull_Info_01", "No Attack If Storage Full and Builder Busy"))
+		$g_hChkSkipBBAttIfStorageFull = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkSkipBBAttIfStorageFull", "Halt If Both Storages Full"), $x, $y)
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkSkipBBAttIfStorageFull_Info_01", "Stop attacking once both BB storages are full. Bypassed by 'Only if stars is available' (which already gates by stars). CG/BB event forced attacks are unaffected."))
 			GUICtrlSetOnEvent(-1, "ChkSkipBBAttIfStorageFull")
 			GUICtrlSetState(-1, $GUI_DISABLE)
 		$y += 23
