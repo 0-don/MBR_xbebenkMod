@@ -744,6 +744,8 @@ Func ReadConfig_600_12()
 	$g_asTxtDonateTroop[$eTroopCount + $eSiegeLogLauncher] = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtDonateLogL", "Log Launcher"), "|", @CRLF)
 	$g_asTxtDonateTroop[$eTroopCount + $eSiegeFlameFlinger] = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtDonateFlameF", "Flame Flinger"), "|", @CRLF)
 	$g_asTxtDonateTroop[$eTroopCount + $eSiegeBattleDrill] = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtDonateBattleD", "Battle Drill"), "|", @CRLF)
+	$g_asTxtDonateTroop[$eTroopCount + $eSiegeTroopLauncher] = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtDonateTroopL", "Troop Launcher|TroopL"), "|", @CRLF)
+	$g_asTxtDonateTroop[$eTroopCount + $eSiegeSkyWagon] = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtDonateSkyW", "Sky Wagon|SkyW|wagon"), "|", @CRLF)
 
 	$g_bChkExtraAlphabets = (IniRead($g_sProfileConfigPath, "donate", "chkExtraAlphabets", "0") = "1")
 	$g_bChkExtraChinese = (IniRead($g_sProfileConfigPath, "donate", "chkExtraChinese", "0") = "1")

@@ -291,7 +291,13 @@ Func DonateCC($bTest = False, $bSwitch = False, $bClanChatOpened = False)
 					SetDebugLog("Siege checkpoint.", $COLOR_DEBUG)
 					For $SiegeIndex = $eSiegeWallWrecker To $eSiegeMachineCount - 1
 						Local $index = $eTroopCount + $SiegeIndex
-						If $g_abChkDonateTroop[$index] Then
+						; Force-donate siege machines the GUI doesn't expose a
+						; checkbox for (Troop Launcher, Sky Wagon). Their
+						; $g_abChkDonateTroop bit always reads False from config
+						; because readConfig's name lookup only covers the seven
+						; original siege machines.
+						Local $bAlwaysDonateSiege = ($SiegeIndex = $eSiegeTroopLauncher Or $SiegeIndex = $eSiegeSkyWagon)
+						If $g_abChkDonateTroop[$index] Or $bAlwaysDonateSiege Then
 							If CheckDonateSiege($SiegeIndex, $g_asTxtDonateTroop[$index], $ClanString, $g_bNewSystemToDonate) Then
 								Local $iQuant = -1, $Quant = 0
 								$iQuant = _ArraySearch($g_aiDonTroopQuant, $SiegeIndex, 0, 0, 0, 0, 1, 0)
