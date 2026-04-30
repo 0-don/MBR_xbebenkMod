@@ -311,7 +311,11 @@ Func DonateCC($bTest = False, $bSwitch = False, $bClanChatOpened = False)
 					SetDebugLog("Spell checkpoint.", $COLOR_DEBUG)
 					For $i = 0 To UBound($g_aiDonateSpellPriority) - 1
 						Local $iSpellIndex = $g_aiDonateSpellPriority[$i]
-						If $g_abChkDonateSpell[$iSpellIndex] Then
+						; Force-donate spells the GUI doesn't expose a checkbox for
+						; (Revive, Totem, IceBlock). Same readConfig gap as for the
+						; Thrower/Druid troops.
+						Local $bAlwaysDonateSpell = ($iSpellIndex = $eSpellRevive Or $iSpellIndex = $eSpellTotem Or $iSpellIndex = $eSpellIceBlock)
+						If $g_abChkDonateSpell[$iSpellIndex] Or $bAlwaysDonateSpell Then
 							If CheckDonateSpell($iSpellIndex, $g_asTxtDonateSpell[$iSpellIndex], $ClanString, $g_bNewSystemToDonate) Then
 								Local $iQuant = -1, $Quant = 0
 								$iQuant = _ArraySearch($g_aiDonSpellQuant, $iSpellIndex, 0, 0, 0, 0, 1, 0)

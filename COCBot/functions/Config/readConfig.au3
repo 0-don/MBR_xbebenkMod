@@ -725,6 +725,9 @@ Func ReadConfig_600_12()
 	$g_asTxtDonateSpell[$eSpellHaste] = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtDonateHasteSpells", "haste"), "|", @CRLF)
 	$g_asTxtDonateSpell[$eSpellSkeleton] = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtDonateSkeletonSpells", "skeleton"), "|", @CRLF)
 	$g_asTxtDonateSpell[$eSpellBat] = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtDonateBatSpells", "bat"), "|", @CRLF)
+	$g_asTxtDonateSpell[$eSpellRevive] = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtDonateReviveSpells", "revive"), "|", @CRLF)
+	$g_asTxtDonateSpell[$eSpellTotem] = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtDonateTotemSpells", "totem"), "|", @CRLF)
+	$g_asTxtDonateSpell[$eSpellIceBlock] = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtDonateIceBlockSpells", "ice block|iceblock|ib"), "|", @CRLF)
 
 	For $i = $eSiegeWallWrecker to $eSiegeMachineCount - 1
 		Local $index = $eTroopCount
