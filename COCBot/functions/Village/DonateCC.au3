@@ -269,7 +269,7 @@ Func DonateCC($bTest = False, $bSwitch = False, $bClanChatOpened = False)
 							; False from config because readConfig's name lookup only
 							; covers Barb..Headhunter, so they would otherwise never
 							; donate even when CC requests explicitly mention them.
-							Local $bAlwaysDonate = ($iTroopIndex = $eTroopThrower Or $iTroopIndex = $eTroopDruid Or $iTroopIndex = $eTroopSuperYeti Or $iTroopIndex = $eTroopFurnace)
+							Local $bAlwaysDonate = ($iTroopIndex = $eTroopThrower Or $iTroopIndex = $eTroopDruid Or $iTroopIndex = $eTroopSuperYeti Or $iTroopIndex = $eTroopFurnace Or $iTroopIndex = $eTroopIceMinion Or $iTroopIndex = $eTroopMeteorGolem Or $iTroopIndex = $eTroopGiantGiant Or $iTroopIndex = $eTroopAzureDragon Or $iTroopIndex = $eTroopFirecracker Or $iTroopIndex = $eTroopRamRider)
 							If $g_abChkDonateTroop[$iTroopIndex] Or $bAlwaysDonate Then
 								If CheckDonateTroop($iTroopIndex, $g_asTxtDonateTroop[$iTroopIndex], $ClanString, $g_bNewSystemToDonate) Then
 									Local $iQuant = -1, $Quant = 0
@@ -948,7 +948,7 @@ Func getArmyRequest($DonateButton = -1)
 			Local $sQuant = getOcrAndCapture("coc-singlereq", $axCoord[$iPos], $aiDonateCoords[1] - 88, 18, 15, True)
 			$iArmyIndex = TroopIndexLookup($aQuick[$i][0])
 			; Troops
-			If $iArmyIndex >= $eBarb And $iArmyIndex <= $eFurn Then
+			If $iArmyIndex >= $eBarb And $iArmyIndex <= $eRamR Then
 				$sClanText &= ", " & $g_asTroopNames[$iArmyIndex]
 				$sDebugText &= ", " & $g_asTroopNames[$iArmyIndex] & ":" & (Number($sQuant) > 0 ? $sQuant : 1)
 				$g_aiDonTroopQuant[$i][0] = $iArmyIndex
